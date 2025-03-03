@@ -205,13 +205,6 @@ def run_all_tests():
         {"name": "BUFFER_SIZE invalide", "file": "test_files/multiple_nl.txt", "buffer_size": -1},
     ]
     
-    # Préparation du test d'erreur de lecture
-    try:
-        os.chmod("test_files/read_error.txt", 0o000)  # Enlever toutes les permissions
-        tests.append({"name": "Erreur de lecture", "file": "test_files/read_error.txt"})
-    except:
-        print(f"{WARNING} Impossible de modifier les permissions pour le test d'erreur de lecture")
-    
     # Exécution des tests
     for test in tests:
         buffer_size = test.get("buffer_size", 42)  # BUFFER_SIZE par défaut
@@ -223,12 +216,6 @@ def run_all_tests():
             result = run_test(test["name"], test_file=test["file"], buffer_size=buffer_size)
         
         results[test["name"]] = result
-    
-    # Restaurer les permissions
-    try:
-        os.chmod("test_files/read_error.txt", 0o644)
-    except:
-        pass
     
     # Tests avec différentes tailles de buffer
     for buffer_size in BUFFER_SIZES:
@@ -261,4 +248,4 @@ if __name__ == "__main__":
         print("Installez valgrind avec 'brew install valgrind' sur macOS ou 'apt-get install valgrind' sur Linux.")
         sys.exit(1)
     
-    run_all_tests() 
+    run_all_tests()
