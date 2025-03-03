@@ -30,7 +30,7 @@ Cette version de GNL contient divers bugs, notamment:
 Clonez le repository:
 
 ```bash
-https://github.com/pnaessen/gnl-bug-hunt.git
+git@github.com:pnaessen/gnl-bug-hunt.git
 cd gnl-bug-hunt
 ```
 
