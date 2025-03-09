@@ -15,6 +15,7 @@ Get Next Line (GNL) est une fonction qui lit une ligne depuis un descripteur de 
   - Pas de modifications du prototype de `get_next_line`
   - Pas d'utilisation de variables globales
   - Pas de norme, mais le code doit rester propre
+  - Fonctions externes autorisées read, malloc, free
  
 ## Liste des bugs connus
 
@@ -43,16 +44,6 @@ python3 tester.py
 ```
 
 Ce script testera votre implementation avec différentes tailles de buffer et divers fichiers d'entrée.
-
-### Installation des dépendances Python (si nécessaire)
-
-Le testeur nécessite uniquement le module `termcolor`:
-
-```bash
-pip install termcolor
-```
-
-
 
 ## Exemples d'utilisation
 
