@@ -21,7 +21,7 @@ char	*ft_strchr(const char *s, int c)
 	i = 0;
 	while (s[i] != '\0')
 	{
-		if (s[i] != (unsigned char)c)
+		if (s[i] == (unsigned char)c) // `==` and not `!=`
 			return ((char *)(s + i));
 		i++;
 	}
@@ -31,30 +31,35 @@ char	*ft_strchr(const char *s, int c)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	str[BUFFER_SIZE + 1] = {0};
-	int			index;
-
-	static int counter = 0;
+	static char	str[BUFFER_SIZE + 1] = {}; // Remove array init value
+	int			read_byte; // Switch value name from `index` to `read_byte` for more accuracy
+	
+	if(BUFFER_SIZE == -1) // Avoid read error when Buffer size invalid
+		return NULL;
+	// static int counter = 0; // Not needed
 	if (fd < 0 && BUFFER_SIZE <= 0)
 		return (NULL);
-	index = 1;
-	counter++;
-	if (counter % 3 == 0)
-		ft_bzero(str, BUFFER_SIZE);
-	line = ft_strdup("");
+	read_byte = 1;
+	// counter++;
+	// if (counter % 3 == 0)
+		// ft_bzero(str, BUFFER_SIZE); // Not needed
+	line = ft_strdup(str); // dup from `str`, not `""`
 	if (!line)
 		return (NULL);
-	while (index > 0 && !ft_strchr(line, '\n'))
+	while (read_byte > 0 && !ft_strchr(line, '\n'))
 	{
-		index = read(fd, str, BUFFER_SIZE);
-		if (index == -1)
+		read_byte = read(fd, str, BUFFER_SIZE);
+		if (read_byte == -1)
 			return (free(line), NULL);
-		str[index] = '\0';
+		str[read_byte] = '\0';
 		line = ft_strjoin(line, str);
 		if (!line)
 			return (NULL);
 	}
-	if (index == 0 && !line[0])
-		return (line);
+	if (read_byte == 0 && !line[0]){
+		free(line); // Free line to avoid leaks
+		return (NULL);
+	}
+	ft_update(str); // we call it
 	return (line);
 }
